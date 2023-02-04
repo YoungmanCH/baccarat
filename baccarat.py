@@ -1,4 +1,5 @@
 import random as r
+import copy as c
 
 def preparation():
   print("Choose Player or Banker or Tie.")
@@ -97,7 +98,7 @@ def game():
 
   print("Player's card")
   print(player_result[0], player_result[1])
-  player_count_result = player_result
+  player_count_result = c.copy(player_result)
   banker_result = []
   banker_count_result = []
   c2 = 0
@@ -116,7 +117,7 @@ def game():
 
   print("Banker's card")
   print(banker_result[0], banker_result[1])
-  banker_count_result = banker_result
+  banker_count_result = c.copy(banker_result)
   first_judge = None
   player_sum = None
   banker_sum = None
@@ -125,37 +126,69 @@ def game():
     player_result[0] = "10"
   if player_result[1] == "J" or player_result[1] == "Q" or player_result[1] == "K":
     player_result[1] = "10"
-  player_first_sum = int(player_result[0])+int(player_result[1])
-  if player_first_sum >= 10:
-    player_first_sum -= 10
-  if player_first_sum >= 20:
-    player_first_sum -= 20
-  if player_first_sum == 8 or player_first_sum == 9:
+  player_sum = int(player_result[0])+int(player_result[1])
+  if player_sum >= 20:
+    player_sum -= 20
+  if player_sum >= 10:
+    player_sum -= 10
+  if player_sum == 8 or player_sum == 9:
     first_judge = "Natural"
     
   if banker_result[0] == "J" or banker_result[0] == "Q" or banker_result[0] == "K":
     banker_result[0] = "10"
   if banker_result[1] == "J" or banker_result[1] == "Q" or banker_result[1] == "K":
     banker_result[1] = "10"
-  banker_first_sum = int(banker_result[0])+int(banker_result[1])
-  if banker_first_sum >= 10:
-    banker_first_sum -= 10
-  if banker_first_sum >= 20:
-    banker_first_sum -= 20
-  if banker_first_sum == 8 or banker_first_sum == 9:
+  banker_sum = int(banker_result[0])+int(banker_result[1])
+  if banker_sum >= 20:
+    banker_sum -= 20
+  if banker_sum >= 10:
+    banker_sum -= 10
+  if banker_sum == 8 or banker_sum == 9:
     first_judge = "Natural"
 
   if first_judge == "Natural":
-    if player_first_sum > banker_first_sum:
+    if player_sum > banker_sum:
       print("Player is winner!")
-    elif player_first_sum == banker_first_sum:
+    elif player_sum == banker_sum:
       print("Tie")
     else:
       print("Banker is winner!")
-  # elif player_first_sum == 6 or player_first_sum == 7:
-  #   print("Player is stand")
-  #   #まだ途中
+  elif player_sum == 6 or player_sum == 7:
+    print("Player is stand")
 
+    c4 = 0
+
+    while c4 !=1:
+      n1 = r.randint(0, 12)
+      n2 = r.randint(0, 7)
+      n3 = r.randint(0, 3)
+      try:
+        banker_result.append(cards[n3][n2][n1])
+        banker_count_result.append(cards[n3][n2][n1])
+        del cards[n3][n2][n1]
+        c4 += 1
+      except IndexError as e4:
+        continue
+
+    print("Banker's card")
+    print(banker_count_result[0], banker_count_result[1], banker_count_result[2])
+
+    if banker_result[2] == "J" or banker_result[2] == "Q" or banker_result[2] == "K":
+      banker_result[2] = "10"
+    banker_sum = int(banker_result[0])+int(banker_result[1])+int(banker_result[2])
+    if banker_sum >= 30:
+      banker_sum -= 30
+    if banker_sum >= 20:
+      banker_sum -= 20
+    if banker_sum >= 10:
+      banker_sum -= 10
+    
+    if player_sum > banker_sum:
+      print("Player is winner!")
+    elif player_sum == banker_sum:
+      print("Tie")
+    else:
+      print("Banker is winner!")
   else:
     print("Next cards!")
     c3 = 0
@@ -166,7 +199,7 @@ def game():
       n3 = r.randint(0, 3)
       try:
         player_result.append(cards[n3][n2][n1])
-        player_count_result.append(player_result[2])
+        player_count_result.append(cards[n3][n2][n1])
         del cards[n3][n2][n1]
         c3 += 1
       except IndexError as e3:
@@ -182,7 +215,7 @@ def game():
       n3 = r.randint(0, 3)
       try:
         banker_result.append(cards[n3][n2][n1])
-        banker_count_result.append(banker_result[2])
+        banker_count_result.append(cards[n3][n2][n1])
         del cards[n3][n2][n1]
         c4 += 1
       except IndexError as e4:
@@ -193,32 +226,34 @@ def game():
 
     if player_result[2] == "J" or player_result[2] == "Q" or player_result[2] == "K":
       player_result[2] = "10"
-    player_first_sum = int(player_result[0])+int(player_result[1])+int(player_result[2])
-    if player_first_sum >= 30:
-      banker_first_sum -= 30
-    if player_first_sum >= 20:
-      banker_first_sum -= 20
-    if player_first_sum >= 10:
-      player_first_sum -= 10
-
+    player_sum = int(player_result[0])+int(player_result[1])+int(player_result[2])
+    if player_sum >= 30:
+      player_sum -= 30
+    if player_sum >= 20:
+      player_sum -= 20
+    if player_sum >= 10:
+      player_sum -= 10
+  
     if banker_result[2] == "J" or banker_result[2] == "Q" or banker_result[2] == "K":
       banker_result[2] = "10"
-    banker_first_sum = int(banker_result[0])+int(banker_result[1])+int(banker_result[2])
-    if banker_first_sum >= 30:
-      banker_first_sum -= 30
-    if banker_first_sum >= 20:
-      banker_first_sum -= 20
-    if banker_first_sum >= 10:
-      banker_first_sum -= 10
+    banker_sum = int(banker_result[0])+int(banker_result[1])+int(banker_result[2])
+    if banker_sum >= 30:
+      banker_sum -= 30
+    if banker_sum >= 20:
+      banker_sum -= 20
+    if banker_sum >= 10:
+      banker_sum -= 10
     
-    if player_first_sum > banker_first_sum:
+    if player_sum > banker_sum:
       print("Player is winner!")
-    elif player_first_sum == banker_first_sum:
+    elif player_sum == banker_sum:
       print("Tie")
     else:
       print("Banker is winner!")
+      
+    print(player_sum, banker_sum)
 
-preparation()
+# preparation()
 game()
 
 
