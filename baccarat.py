@@ -114,25 +114,39 @@ def game():
 
   print("Banker's card")
   print(banker_first_result[0], banker_first_result[1])
+  first_judge = None
+  player_first_sum = None
+  banker_first_sum = None
 
-  def player_calculation():
-    if player_first_result[0] == "J" or player_first_result[0] == "Q" or player_first_result[0] == "K":
-      player_first_result[0] = "10"
-    if player_first_result[1] == "J" or player_first_result[1] == "Q" or player_first_result[1] == "K":
-      player_first_result[1] = "10"
-    # print(player_first_result)
+  if player_first_result[0] == "J" or player_first_result[0] == "Q" or player_first_result[0] == "K":
+    player_first_result[0] = "10"
+  if player_first_result[1] == "J" or player_first_result[1] == "Q" or player_first_result[1] == "K":
+    player_first_result[1] = "10"
+  player_first_sum = int(player_first_result[0])+int(player_first_result[1])
+  if player_first_sum >= 10:
+    player_first_sum -= 10
+  if player_first_sum == 8 or player_first_sum == 9:
+    first_judge = "Natural"
     
-  
-  def banker_calculation():
-    if banker_first_result[0] == "J" or banker_first_result[0] == "Q" or banker_first_result[0] == "K":
-      banker_first_result[0] = "10"
-    if banker_first_result[1] == "J" or banker_first_result[1] == "Q" or banker_first_result[1] == "K":
-      banker_first_result[1] = "10"
+  if banker_first_result[0] == "J" or banker_first_result[0] == "Q" or banker_first_result[0] == "K":
+    banker_first_result[0] = "10"
+  if banker_first_result[1] == "J" or banker_first_result[1] == "Q" or banker_first_result[1] == "K":
+    banker_first_result[1] = "10"
+  banker_first_sum = int(banker_first_result[0])+int(banker_first_result[1])
+  if banker_first_sum >= 10:
+    banker_first_sum -= 10
+  if banker_first_sum == 8 or banker_first_sum == 9:
+    first_judge = "Natural"
 
-  #calculation関数では、絵札の数値を全て10に変換しており、player_first_resultつまり実質合計値を計算している。
-  
-  player_calculation()
-  banker_calculation()
+  if first_judge == "Natural":
+    if player_first_sum > banker_first_sum:
+      print("Player is winner!")
+    elif player_first_sum == banker_first_result:
+      print("Tie")
+    else:
+      print("Banker is winner!")
+  else:
+    print("Next cards!")
 
 # preparation()
 game()
