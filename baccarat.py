@@ -85,15 +85,15 @@ def preparation():
     global bet
     try:
       bet = int(input())
+      if bet >= 15:
+        break
+      else:
+        print("Minimum wager is $15. Place your bet!")
+        continue
     except ValueError as e1:
-      print("Minimum wager is $15. Place your bet!")
-
-    if bet >= 15:
-      break
-    else:
       print("Only single-byte numbers can be used.")
       print("Minimum wager is $15. Place your bet!")
-      continue
+
 
 #ここでは、バカラが1デッキ52枚の8デッキ使用、且つ1ゲーム毎にシャッフルされるものとする。
 def game():
@@ -459,8 +459,14 @@ def game():
 
   #Using global variable
   global chips
-  if user_role == judge:
+  if (user_role == judge and judge == "Player"):
     chips += bet
+  elif (user_role == judge and judge == "Banker"):
+    bet_commission = float(bet) * 0.95
+    chips += bet_commission
+  elif (user_role == judge and judge == "Tie"):
+    bet_commission = bet * 9
+    chips += bet_commission
   elif judge == "Tie":
     chips = chips
   else:
@@ -499,27 +505,6 @@ def game():
       print("Do you charge tips? Yes is 'y'. No is 'n'.")
       continue
 
-    
-
-    # while chips_check == False:
-    #   try:
-    #     print("Charge chips! Minimum charge is $15.")
-    #     chips += int(input())
-    #   except ValueError as e0:
-    #     print("Charge chips! Minimum charge is $15.")
-    #   if chips >= 15:
-    #     break
-    #   else:
-    #     print("Only single-byte numbers can be used.")
-    #     print("Your total chips: $" + str(chips))
-    #     print("Minimum charge is $15. Charge chips!")
-    #     continue
-
-
-#game() 内のcharge()を実行できていないので、コメントアウト文を参考に改良する必要がある。
-#Tieの場合の賭け金とbankerのコミッション費用を差し引いていない
-
-
   game_mode_config()
 
 game_mode_config()
@@ -528,7 +513,6 @@ while game_mode != 'q':
   preparation()
   game()
 
-#現在、チップの増減や毎度チップのチャージを請求する機能を直す必要がある。
 #Metamaskと混ぜれば面白そう
 
 
