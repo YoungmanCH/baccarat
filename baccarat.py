@@ -153,8 +153,21 @@ def game():
       print("Tie")
     else:
       print("Banker is winner!")
+
+  elif (player_sum == 6 or player_sum == 7) and banker_sum == 7:
+    print("Player is stand")
+    print("Banker is stand")
+
+    if player_sum > banker_sum:
+      print("Player is winner!")
+    elif player_sum == banker_sum:
+      print("Tie")
+    else:
+      print("Banker is winner!")
+
   elif player_sum == 6 or player_sum == 7:
     print("Player is stand")
+    print("Next cards!")
 
     c4 = 0
 
@@ -189,6 +202,44 @@ def game():
       print("Tie")
     else:
       print("Banker is winner!")
+
+  elif banker_sum == 7:
+    print("Banker is stand")
+    print("Next cards!")
+    c3 = 0
+
+    while c3 !=1:
+      n1 = r.randint(0, 12)
+      n2 = r.randint(0, 7)
+      n3 = r.randint(0, 3)
+      try:
+        player_result.append(cards[n3][n2][n1])
+        player_count_result.append(cards[n3][n2][n1])
+        del cards[n3][n2][n1]
+        c3 += 1
+      except IndexError as e3:
+        continue
+
+    print("Player's card")
+    print(player_count_result[0], player_count_result[1], player_count_result[2])
+    
+    if player_result[2] == "J" or player_result[2] == "Q" or player_result[2] == "K":
+      player_result[2] = "10"
+    player_sum = int(player_result[0])+int(player_result[1])+int(player_result[2])
+    if player_sum >= 30:
+      player_sum -= 30
+    if player_sum >= 20:
+      player_sum -= 20
+    if player_sum >= 10:
+      player_sum -= 10
+
+    if player_sum > banker_sum:
+      print("Player is winner!")
+    elif player_sum == banker_sum:
+      print("Tie")
+    else:
+      print("Banker is winner!")
+
   else:
     print("Next cards!")
     c3 = 0
@@ -250,10 +301,10 @@ def game():
       print("Tie")
     else:
       print("Banker is winner!")
-      
-    print(player_sum, banker_sum)
 
-# preparation()
+  print("result: " + str(player_sum), str(banker_sum))
+
+preparation()
 game()
 
 
