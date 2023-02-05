@@ -1,24 +1,77 @@
 import random as r
 import copy as c
 
+chips = 0
+bet = 0
+chips_check = False
+game_mode = None
+user_role = False
+
+def game_mode_config():
+  print("Enter 's' to start or continue the game, or 'q' to end the game.")
+  game_mode_check = False
+  #Using global variable
+  global game_mode
+
+  while game_mode_check == False:
+    game_mode = input()
+
+    if game_mode == "s":
+      print("Game start!!")
+      break
+
+    elif game_mode == "q":
+      print("Game over")
+      break
+
+    else:
+      print('Enter other characters')
+      print("Enter 's' to start or continue the game, or 'q' to end the game.")
+
+def charge():
+  #Using global variable
+  global chips
+  if chips < 15:
+    while chips_check == False:
+      try:
+        print("Charge chips! Minimum charge is $15.")
+        chips += int(input())
+      except ValueError as e0:
+        print("Charge chips! Minimum charge is $15.")
+      if chips >= 15:
+        break
+      else:
+        print("Only single-byte numbers can be used.")
+        print("Your total chips: $" + str(chips))
+        print("Minimum charge is $15. Charge chips!")
+        continue
+    
+
 def preparation():
+  print("Your total chips: $" + str(chips))
   print("Choose Player or Banker or Tie.")
   print("Player is p. Banker is b. Tie is t.")
   role_check = False
   wager_check = False
+  #Using global variable
+  global user_role
 
   while role_check == False:
     choose = input()
+    user_role
     if choose == "p":
-      print("Player")
+      user_role = "Player"
+      print(user_role)
       print("Place your bet! Minimum wager is $15.")
       break
     elif choose =="b":
-      print("Banker")
+      user_role = "Banker"
+      print(user_role)
       print("Place your bet! Minimum wager is $15.")
       break
     elif choose == "t":
-      print("Tie")
+      user_role = "Tie"
+      print(user_role)
       print("Place your bet! Minimum wager is $15.")
       break
     else:
@@ -28,6 +81,8 @@ def preparation():
       continue
 
   while wager_check == False:
+    #Using global variable
+    global bet
     try:
       bet = int(input())
     except ValueError as e1:
@@ -119,9 +174,9 @@ def game():
   print(banker_result[0], banker_result[1])
   banker_count_result = c.copy(banker_result)
   first_judge = None
+  judge = None
   player_sum = None
   banker_sum = None
-
   if player_result[0] == "J" or player_result[0] == "Q" or player_result[0] == "K":
     player_result[0] = "10"
   if player_result[1] == "J" or player_result[1] == "Q" or player_result[1] == "K":
@@ -148,22 +203,28 @@ def game():
 
   if first_judge == "Natural":
     if player_sum > banker_sum:
-      print("Player is winner!")
+      judge = "Player"
+      print(judge + " is winner!")
     elif player_sum == banker_sum:
-      print("Tie")
+      judge = "Tie"
+      print(judge)
     else:
-      print("Banker is winner!")
+      judge = "Banker"
+      print(judge + " is winner!")
 
   elif (player_sum == 6 or player_sum == 7) and banker_sum == 7:
     print("Player is stand")
     print("Banker is stand")
 
     if player_sum > banker_sum:
-      print("Player is winner!")
+      judge = "Player"
+      print(judge + " is winner!")
     elif player_sum == banker_sum:
-      print("Tie")
+      judge = "Tie"
+      print(judge)
     else:
-      print("Banker is winner!")
+      judge = "Banker"
+      print(judge + " is winner!")
 
   elif player_sum == 6 or player_sum == 7:
     print("Player is stand")
@@ -197,11 +258,14 @@ def game():
       banker_sum -= 10
     
     if player_sum > banker_sum:
-      print("Player is winner!")
+      judge = "Player"
+      print(judge + " is winner!")
     elif player_sum == banker_sum:
-      print("Tie")
+      judge = "Tie"
+      print(judge)
     else:
-      print("Banker is winner!")
+      judge = "Banker"
+      print(judge + " is winner!")
 
   elif banker_sum == 7:
     print("Banker is stand")
@@ -234,11 +298,14 @@ def game():
       player_sum -= 10
 
     if player_sum > banker_sum:
-      print("Player is winner!")
+      judge = "Player"
+      print(judge + " is winner!")
     elif player_sum == banker_sum:
-      print("Tie")
+      judge = "Tie"
+      print(judge)
     else:
-      print("Banker is winner!")
+      judge = "Banker"
+      print(judge + " is winner!")
 
   else:
     print("Next cards!")
@@ -270,7 +337,8 @@ def game():
       player_sum -= 10
     
     if player_sum == 8 and banker_sum == 3:
-      print("Player is winner")
+      judge = "Player"
+      print(judge + " is winner")
 
     if (player_sum == 8 or player_sum == 9) and banker_sum <= 2 :
       c4 = 0
@@ -302,38 +370,51 @@ def game():
         banker_sum -= 10
       
       if player_sum > banker_sum:
-        print("Player is winner!")
+        judge = "Player"
+        print(judge + " is winner!")
       elif player_sum == banker_sum:
-        print("Tie")
+        judge = "Tie"
+        print(judge)
       else:
-        print("Banker is winner!")
+        judge = "Banker"
+        print(judge + " is winner!")
 
     elif player_sum == 8 or player_sum == 9:
-      print("Player is winner!")
+      judge = "Player"
+      print(judge + " is winner!")
 
     elif (player_sum == 0 or player_sum == 1 or player_sum == 8 or player_sum == 9) and banker_sum == 4:
       if player_sum > banker_sum:
-        print("Player is winner!")
+        judge = "Player"
+        print(judge + " is winner!")
       elif player_sum == banker_sum:
-        print("Tie")
+        judge = "Tie"
+        print(judge)
       else:
-        print("Banker is winner!")
+        judge = "Banker"
+        print(judge + " is winner!")
     
     elif (player_sum == 0 or player_sum == 1 or player_sum == 2 or player_sum == 3 or  player_sum == 8 or  player_sum == 9) and banker_sum == 5:
       if player_sum > banker_sum:
-        print("Player is winner!")
+        judge = "Player"
+        print(judge + " is winner!")
       elif player_sum == banker_sum:
-        print("Tie")
+        judge = "Tie"
+        print(judge)
       else:
-        print("Banker is winner!")
+        judge = "Banker"
+        print(judge + " is winner!")
 
     elif (player_sum == 0 or player_sum == 1 or player_sum == 2 or player_sum == 3 or player_sum == 4 or player_sum == 5 or player_sum == 8 or player_sum == 9) and banker_sum == 6:
       if player_sum > banker_sum:
-        print("Player is winner!")
+        judge = "Player"
+        print(judge + " is winner!")
       elif player_sum == banker_sum:
-        print("Tie")
+        judge = "Tie"
+        print(judge)
       else:
-        print("Banker is winner!")
+        judge = "Banker"
+        print(judge + " is winner!")
 
     else:
       c4 = 0
@@ -365,16 +446,90 @@ def game():
         banker_sum -= 10
       
       if player_sum > banker_sum:
-        print("Player is winner!")
+        judge = "Player"
+        print(judge + " is winner!")
       elif player_sum == banker_sum:
-        print("Tie")
+        judge = "Tie"
+        print(judge)
       else:
-        print("Banker is winner!")
+        judge = "Banker"
+        print(judge + " is winner!")
 
   print("result: " + str(player_sum), str(banker_sum))
 
-preparation()
-game()
+  #Using global variable
+  global chips
+  if user_role == judge:
+    chips += bet
+  elif judge == "Tie":
+    chips = chips
+  else:
+    chips -= bet
+  print("Your chips is $" + str(chips))
+  more_charge = None
+  print("Do you charge tips? Yes is 'y'. No is 'n'.")
+  more_charge = input()
+
+  while True:
+    if more_charge =='y': 
+      while True:
+        try:
+          print("You can charge tips from $1")
+          more_chips = int(input())
+          while True:
+            if more_chips >0:
+              chips += more_chips
+              break
+            else:
+              print("Only single-byte numbers can be used.")
+              print("You can charge tips from $1")
+              more_chips = int(input())
+              continue
+          break
+
+        except ValueError as e5:
+          print("Only single-byte numbers can be used.")
+          print("Your total chips: $" + str(chips))
+          continue
+      break
+    elif more_charge == 'n':
+      break
+    else:
+      print("Enter other characters.")
+      print("Do you charge tips? Yes is 'y'. No is 'n'.")
+      continue
+
+    
+
+    # while chips_check == False:
+    #   try:
+    #     print("Charge chips! Minimum charge is $15.")
+    #     chips += int(input())
+    #   except ValueError as e0:
+    #     print("Charge chips! Minimum charge is $15.")
+    #   if chips >= 15:
+    #     break
+    #   else:
+    #     print("Only single-byte numbers can be used.")
+    #     print("Your total chips: $" + str(chips))
+    #     print("Minimum charge is $15. Charge chips!")
+    #     continue
+
+
+#game() 内のcharge()を実行できていないので、コメントアウト文を参考に改良する必要がある。
+#Tieの場合の賭け金とbankerのコミッション費用を差し引いていない
+
+
+  game_mode_config()
+
+game_mode_config()
+while game_mode != 'q':
+  charge()
+  preparation()
+  game()
+
+#現在、チップの増減や毎度チップのチャージを請求する機能を直す必要がある。
+#Metamaskと混ぜれば面白そう
 
 
 
